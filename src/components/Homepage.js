@@ -1,6 +1,6 @@
 import React from "react";
 import millify from "millify";
-import { Typography, Row, Col, Statistic } from "antd";
+import { Typography} from "antd";
 import { Link } from "react-router-dom";
 import { useGetCryptosQuery } from "../services/Api";
 import Cryptocurrencies from "./Cryptocurrencies";
@@ -13,63 +13,45 @@ const Homepage = () => {
   if (isFetching) return "loading..";
   return (
     <>
-      <Title level={2} className="heading">
-        Global Crypto Status
-      </Title>
-      <Row>
-        <Col span={12}>
-          <Statistic
-            span={12}
-            title="Total Cryptocurrencies"
-            value={globalStats.total}
-          />
-        </Col>
-        <Col span={12}>
-          <Statistic
-            span={12}
-            title="Total Exchanges"
-            value={millify(globalStats.totalExchanges)}
-          />
-        </Col>
-        <Col span={12}>
-          <Statistic
-            span={12}
-            title="Total Market Cap"
-            value={millify(globalStats.totalMarketCap)}
-          />
-        </Col>
-        <Col span={12}>
-          <Statistic
-            span={12}
-            title="Total 24h Volume"
-            value={millify(globalStats.total24hVolume)}
-          />
-        </Col>
-
-        <Col span={12}>
-          <Statistic
-            span={12}
-            title="Total Markets"
-            value={millify(globalStats.totalMarkets)}
-          />
-        </Col>
-      </Row>
-      <div className="home-heading-container">
-        <Title level={2} className="home-title">
+      <h2 className="text-xl font-bold uppercase">Global Crypto Status</h2>
+      <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2 xl:grid-cols-4 xl:gap-4 mt-4 mb-10">
+        <div className="text-center bg-gray-100 p-5 shadow-md mt-2">
+          <span className="block text-lg font-bold">
+            Total Cryptocurrencies
+          </span>
+          <small className="block text-sm">{globalStats.total}</small>
+        </div>
+        <div className="text-center bg-gray-100 p-5 shadow-md mt-2">
+          <span className="block text-lg font-bold">Total Exchanges</span>
+          <small className="block text-sm">
+            {millify(globalStats.totalExchanges)}
+          </small>
+        </div>
+        <div className="text-center bg-gray-100 p-5 shadow-md mt-2">
+          <span className="block text-lg font-bold">Total Market Cap</span>
+          <small className="block text-sm">
+            {millify(globalStats.totalMarketCap)}
+          </small>
+        </div>
+        <div className="text-center bg-gray-100 p-5 shadow-md mt-2">
+          <span className="block text-lg font-bold">Total Markets</span>
+          <small className="block text-sm">
+            {millify(globalStats.totalMarkets)}
+          </small>
+        </div>
+      </div>
+      <div className="flex justify-between my-5">
+        <h2 className="text-xl font-bold uppercase">
           Top 10 Crypto Currencies in the world
-        </Title>
-        <Title level={2} className="show-more">
-          <Link to="/cryptocurrencies">Show More</Link>
-        </Title>
+        </h2>
+        <Link to="/cryptocurrencies" className="uppercase text-black">Show More</Link>
       </div>
       <Cryptocurrencies simplified />
-      <div className="home-heading-container">
-        <Title level={2} className="home-title">
-          Latest Crypto News
-        </Title>
-        <Title level={2} className="show-more">
-          <Link to="/news">Show More</Link>
-        </Title>
+      <div className="flex justify-between my-5">
+        <h2 className="text-xl font-bold uppercase">
+          Top 10 Crypto Currencies in the world
+        </h2>
+        <Link to="/news" className="uppercase text-black">Show More</Link>
       </div>
       <News simplified />
     </>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import HTMLReactParser from "html-react-parser";
 import { useParams } from "react-router-dom";
 import millify from "millify";
+import LineChart from "./LineChart";
 import { Col, Row, Typography, Select } from "antd";
 import {
   MoneyCollectOutlined,
@@ -19,8 +20,6 @@ import {
   useGetCryptoDetailsQuery,
   useGetCryptoHistoryQuery,
 } from "../services/Api";
-import LineChart from "./LineChart";
-import { Line } from "react-chartjs-2";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -107,91 +106,80 @@ const Cryptodetails = () => {
     },
   ];
   return (
-    <Col className="coin-detail-container">
-      <Col className="coin-heading-container">
-        <Title level={2} className="coin-name">
-          {cryptoDetails.name} ({cryptoDetails.symbol}) Price
-        </Title>
-        <p>
-          {cryptoDetails.name} live price in US dollars. View value statistics,
-          market cap and supply.
-        </p>
-      </Col>
-      <Select
-        defaultValue={"7d"}
-        className="select-timeperiod"
-        placeholder="Select time period"
-        onChange={(value) => setTimePeriod(value)}
-      >
-        {time.map((date) => (
-          <Option key={date}>{date}</Option>
-        ))}
-      </Select>
+    <div>
+      <h2 className="text-xl font-bold uppercase">
+        {cryptoDetails.name} ({cryptoDetails.symbol}) Price
+      </h2>
+      <p>
+        {cryptoDetails.name} live price in US dollars. View value statistics,
+        market cap and supply.
+      </p>
+      <div className="w-full mt-2 mb-8 flex item-center">
+        <span className="p-2 w-1/12 uppercase">Select Time: </span>
+        <select
+          onChange={(e) => setTimePeriod(e.target.value)}
+          className="border-2 p-2 w-11/12"
+        >
+          {time.map((date) => (
+            <option key={date}>{date}</option>
+          ))}
+        </select>
+      </div>
       <LineChart
         coinHistory={coinHistory}
         currentPrice={millify(cryptoDetails.price)}
         coinName={cryptoDetails.name}
       />
-      <Col className="stats-container">
-        <Col className="coin-value-statistics">
-          <Col className="coin-dash-value-statistics-heading">
-            <Title level={3} className="coin-detailes-heading">
-              {cryptoDetails.name} value statistics
-            </Title>
-            <p>An overview showing the stats of {cryptoDetails.name}</p>
-          </Col>
+      <div className="mt-4">
+        <h3 className="text-xl font-bold uppercase">
+          {cryptoDetails.name} value statistics
+        </h3>
+        <p>An overview showing the stats of {cryptoDetails.name}</p>
+        <div className="grid grid-cols-2 gap-2">
           {stats.map(({ icon, title, value }) => (
-            <Col className="coin-stats">
-              <Col className="coin-stats-name">
-                <Text>{icon}</Text>
-                <Text>{title}</Text>
-              </Col>
-              <Text className="stats">{value}</Text>
-            </Col>
+            <div className="shadow-sm bg-gray-100 p-4">
+              <div className="flex item-center">
+                <span className="mr-2">{icon}</span>
+                <span>{title}</span>
+              </div>
+              <small className="text-sm">{value}</small>
+            </div>
           ))}
-        </Col>
-        <Col className="other-stats-info">
-          <Col className="coin-dash-value-statistics-heading">
-            <Title level={3} className="coin-detailes-heading">
-              Other statistics
-            </Title>
-            <p>An overview showing the stats of {cryptoDetails.name}</p>
-          </Col>
+        </div>
+      </div>
+      <div className="mt-4">
+        <h3 className="text-xl font-bold uppercase">Other statistics</h3>
+        <p>An overview showing the stats of {cryptoDetails.name}</p>
+        <div className="grid grid-cols-2 gap-2">
           {genericStats.map(({ icon, title, value }) => (
-            <Col className="coin-stats">
-              <Col className="coin-stats-name">
-                <Text>{icon}</Text>
-                <Text>{title}</Text>
-              </Col>
-              <Text className="stats">{value}</Text>
-            </Col>
+            <div className="shadow-sm bg-gray-100 p-4">
+              <div className="flex">
+                <span className="mr-2">{icon}</span>
+                <span>{title}</span>
+              </div>
+              <small className="text-sm">{value}</small>
+            </div>
           ))}
-        </Col>
-      </Col>
-      <Col className="coin-desc-link">
-        <Row className="coin-desc">
-          <Title level={3} className="coin-details-heading">
-            What is {cryptoDetails.name}
-            {HTMLReactParser(cryptoDetails.description)}
-          </Title>
-        </Row>
-        <Col className="coin-links">
-          <Title level={3} className="coin-details-heading">
-            {cryptoDetails.name} Links
-          </Title>
-          {cryptoDetails.links.map((link) => (
-            <Row className="coin-link" key={link.name}>
-              <Title level={5} className="link-name">
-                {link.type}
-              </Title>
-              <a href={link.url} target="_blank">
-                {link.name}
-              </a>
-            </Row>
-          ))}
-        </Col>
-      </Col>
-    </Col>
+        </div>
+      </div>
+      <div className="mt-4">
+        <h3 className="text-xl font-bold uppercase">
+          What is {cryptoDetails.name}
+        </h3>
+        <p>{HTMLReactParser(cryptoDetails.description)}</p>
+      </div>
+      <div className="mt-4">
+        <h3 className="text-xl font-bold uppercase">{cryptoDetails.name}</h3>
+        {cryptoDetails.links.map((link) => (
+          <div className="bg-gray-100 p-4 my-3" key={link.name}>
+            <h5 className="text-sm font-bold uppercase">{link.type}</h5>
+            <a href={link.url} target="_blank">
+              {link.name}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

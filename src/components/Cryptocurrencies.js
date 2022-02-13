@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import millify from "millify";
 import { Link } from "react-router-dom";
-import { Card, Row, Col, Input } from "antd";
 import { useGetCryptosQuery } from "../services/Api";
 const Cryptocurrencies = ({ simplified }) => {
   const count = simplified ? 10 : 100;
@@ -20,38 +19,36 @@ const Cryptocurrencies = ({ simplified }) => {
   return (
     <>
       {!simplified && (
-        <div className="search-crypto">
-          <Input
+        <div className="w-full">
+          <input
+            type="text"
             placeholder="Search Cryptocurrency"
             onChange={(e) => setSearchItem(e.target.value)}
+            className="border-2 p-2 w-full"
           />
         </div>
       )}
-      <Row gutter={[32, 32]} className="crypto-card-container">
+      <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2 xl:grid-cols-4 xl:gap-4 mt-4">
         {cryptos?.map((currency) => (
-          <Col
-            xs={24}
-            sm={12}
-            lg={6}
-            className="crypto-card"
-            key={currency.uuid}
-          >
+          <div key={currency.uuid} className="mt-4">
             <Link to={`/crypto/${currency.uuid}`}>
-              <Card
-                title={`${currency.rank} . ${currency.name}`}
-                extra={
-                  <img className="crypto-image" src={currency.iconUrl}></img>
-                }
-                hoverable
-              >
-                <p>Price: {millify(currency.price)}</p>
-                <p>Market Cap: {millify(currency.marketCap)}</p>
-                <p>Daily Change: {millify(currency.change)}%</p>
-              </Card>
+              <div className="bg-white shadow-md h-70 min-h-full hover:shadow-lg">
+                <div className="flex justify-between items-center border-b border-gray-200 p-4">
+                  <h3 className="text-sm uppercase">
+                    {`${currency.rank} . ${currency.name}`}
+                  </h3>
+                  <img src={currency.iconUrl} height="30" width="40" />
+                </div>
+                <div className="p-5 text-black">
+                  <p>Price: {millify(currency.price)}</p>
+                  <p>Market Cap: {millify(currency.marketCap)}</p>
+                  <p>Daily Change: {millify(currency.change)}%</p>
+                </div>
+              </div>
             </Link>
-          </Col>
+          </div>
         ))}
-      </Row>
+      </div>
     </>
   );
 };

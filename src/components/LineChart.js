@@ -10,7 +10,7 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
   for (let i = 0; i < coinHistory?.data?.history?.length; i++) {
     coinPrice.push(coinHistory?.data?.history[i]?.price);
     coinTimestamp
-      .push(new Date(coinHistory?.data?.history[i]?.timestamp))
+      .push(new Date(coinHistory?.data?.history[i]?.timestamp * 1000).toLocaleDateString())
       .toLocaleString();
   }
 
@@ -41,19 +41,19 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
 
   return (
     <>
-      <Row className="chart-header">
-        <Title level={2} className="chart-title">
+      <div className="block">
+        <h2 className="text-xl font-bold uppercase">
           {coinName} Price Chart
-        </Title>
-        <Col className="price-container">
-          <Title level={5} className="price-change">
-            {coinHistory?.data?.change}%
-          </Title>
-          <Title level={5} className="current-price">
+        </h2>
+        <div className="flex">
+          <small className="text-xs font-bold uppercase">
+            rate of change: {coinHistory?.data?.change}%
+          </small>
+          <small className="ml-2 text-xs font-bold uppercase">
             Current {coinName} Price: ${currentPrice}
-          </Title>
-        </Col>
-      </Row>
+          </small>
+        </div>
+      </div>
       <Line data={data} options={options} />
     </>
   );

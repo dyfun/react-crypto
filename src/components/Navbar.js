@@ -1,34 +1,34 @@
 import React from "react";
-import { Button, Menu, Typography, Avatar } from "antd";
 import { Link } from "react-router-dom";
-import {
-  HomeOutlined,
-  MoneyCollectOutlined,
-  BulbOutlined,
-  FundOutlined,
-  MenuFoldOutlined,
-} from "@ant-design/icons";
-import AvatarImage from "../assets/img/cryptocurrency.png";
+import Logo from "../assets/img/cryptocurrency.png";
 
 const Navbar = () => {
   return (
-    <div className="nav-container">
-      <div className="logo-container">
-        <Avatar src={AvatarImage} size="large" />
-        <Typography.Title level={2} className="logo">
-          <Link to="/">Crypto Clone</Link>
-        </Typography.Title>
+    <div className="bg-gray-800 py-8 h-full h-100">
+      <div className="flex justify-center border-b border-gray-700 pb-12">
+        <Link to="/">
+          <img src={Logo} height="50" width="60" />
+        </Link>
       </div>
-      <Menu theme="dark">
-        <Menu.Item>
-          <FundOutlined />
-          <Link to="/cryptocurrencies">Cryptocurrencies</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <BulbOutlined />
-          <Link to="/news">News</Link>
-        </Menu.Item>
-      </Menu>
+      <div className="block">
+        <ul>
+        <li className="hover:bg-gray-900 p-5">
+            <Link to="/" className="text-white uppercase hover:text-white">
+              Home
+            </Link>
+          </li>
+          <li className="hover:bg-gray-900 p-5">
+            <Link to="/cryptocurrencies" className="text-white uppercase hover:text-white">
+              Cryptocurrencies
+            </Link>
+          </li>
+          <li className="hover:bg-gray-900 p-5">
+            <Link to="/news" className="text-white uppercase hover:text-white">
+              News
+            </Link>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

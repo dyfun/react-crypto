@@ -1,71 +1,65 @@
 import React, { useState } from "react";
-import { Select, Typography, Row, Col, Avatar, Card } from "antd";
 import moment from "moment";
 import { useGetNewsQuery } from "../services/NewsApi";
 import { useGetCryptosQuery } from "../services/Api";
 
-const { Text, Title } = Typography;
-const { Option } = Select;
 
 const News = ({ simplified }) => {
   const [newsCategory, setNewsCategory] = useState("Crpytocurrency");
   const { data: cryptoNews } = useGetNewsQuery({
     newsCategory,
-    count: simplified ? 6 : 12,
+    count: simplified ? 9 : 12,
   });
   const { data } = useGetCryptosQuery(100);
   if (!cryptoNews?.value) return "Loading...";
   return (
-    <Row gutter={[24, 24]}>
+    <>
       {!simplified && (
-        <Col span={24}>
-          <Select
-            showSearch
-            className="select-news"
-            placeholder="select a news category"
-            optionFilterProp="children"
-            onChange={(value) => setNewsCategory(value)}
-            filterOption={(input, option) => {
-              option.children.toLowerCase().indexOf(input.toLowerCase >= 0);
-            }}
-          >
-            <Option value="Cryptocurrency">Cryptocurrency</Option>
+        <div className="w-full mt-2 mb-8">
+          <select onChange={(e) => setNewsCategory(e.target.value)} className="border-2 p-2 w-full">
             {data?.data?.coins.map((coin) => (
-              <Option value={coin.name}>{coin.name}</Option>
+              <option value={coin.name}>{coin.name}</option>
             ))}
-          </Select>
-        </Col>
+          </select>
+        </div>
       )}
-      {cryptoNews.value.map((news, i) => (
-        <Col xs={24} sm={12} lg={8} key={i}>
-          <Card hoverable className="news-card">
+      <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2 xl:grid-cols-4 xl:gap-4 mt-4">
+        {cryptoNews.value.map((news, i) => (
+          <div
+            className="bg-white shadow-md h-70 min-h-full hover:shadow-lg"
+            key={i}
+          >
             <a href={news.url} target="_blank">
-              <div className="news-image-container">
-                <Title className="news-title" level={4}>
-                  {news.name}
-                </Title>
-                <img src={news?.image?.thumbnail?.contentUrl} />
+              <div className="flex justify-between items-center border-b border-gray-200 p-4">
+                <h3>{news.name}</h3>
+                <img
+                  src={news?.image?.thumbnail?.contentUrl}
+                  height="100"
+                  width="100"
+                />
               </div>
-              <p>
-                {news.description > 100
-                  ? `${news.description.substring(0, 100)} ...`
-                  : news.description}
-              </p>
-              <div className="provider-container">
-                <div>
-                  <Avatar
+              <div className="p-2">
+                <p className="text-black">
+                  {news.description > 100
+                    ? `${news.description.substring(0, 100)} ...`
+                    : news.description}
+                </p>
+                <div className="flex justify-between items-center">
+                  <img
                     src={news.provider[0]?.image?.thumbnail?.contentUrl}
+                    height="30"
+                    width="30"
                   />
-                  <Text>
+                  <small>
                     {moment(news.dataPublished).startOf("ss").fromNow()}
-                  </Text>
+                  </small>
                 </div>
               </div>
             </a>
-          </Card>
-        </Col>
-      ))}
-    </Row>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 
