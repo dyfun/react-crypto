@@ -3,7 +3,6 @@ import HTMLReactParser from "html-react-parser";
 import { useParams } from "react-router-dom";
 import millify from "millify";
 import LineChart from "./LineChart";
-import { Col, Row, Typography, Select } from "antd";
 import {
   MoneyCollectOutlined,
   DollarCircleOutlined,
@@ -20,9 +19,6 @@ import {
   useGetCryptoDetailsQuery,
   useGetCryptoHistoryQuery,
 } from "../services/Api";
-
-const { Title, Text } = Typography;
-const { Option } = Select;
 
 const Cryptodetails = () => {
   const { coinId } = useParams();
